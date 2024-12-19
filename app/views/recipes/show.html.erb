@@ -9,6 +9,42 @@
 <h2>Difficulty:</h2>
 <p><%= @recipe.difficulty %></p>
 
+<h2>Reviews</h2>
+
+<% @recipe.reviews.each do |review| %>
+  <div class="review">
+    <strong><%= review.user.first_name %> <%= review.user.last_name %>:</strong>
+    <p><%= review.content %></p>
+    <p>Rating: <%= review.rating %> / 5</p>
+    <% if review.user == current_user %>
+      <%= button_to 'Delete', recipe_review_path(@recipe, review), method: :delete, class: "btn btn-danger" %>
+    <% end %>
+  </div>
+  <hr>
+<% end %>
+
+<% if user_signed_in? %>
+  <h3>Add a Review</h3>
+  <%= form_with model: [@recipe, @recipe.reviews.build], local: true do |form| %>
+    <div class="form-group">
+      <%= form.label :content, "Your Review" %>
+      <%= form.text_area :content, class: "form-control", rows: 3, required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :rating, "Rating" %>
+      <%= form.number_field :rating, class: "form-control", min: 1, max: 5, required: true %>
+    </div>
+
+    <div class="form-group">
+      <%= form.submit "Add Review", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+<% else %>
+  <p>Please <%= link_to "sign in", new_user_session_path %> to add a review.</p>
+<% end %>
+
+
 
 <%= link_to "Delete", recipe_path(@recipe), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
 <%= link_to "Back to recipes", recipes_path %>
