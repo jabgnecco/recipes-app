@@ -1,0 +1,14 @@
+<h2><%= @recipe.title %></h2>
+<p><%= @recipe.description %></p>
+<h2>Ingredients:</h2>
+<p><%= @recipe.ingredients %></p>
+<h2>Ingredients:</h2>
+<p><%= @recipe.instructions %></p>
+<h2>Category:</h2>
+<p><%= @recipe.category %></p>
+<h2>Difficulty:</h2>
+<p><%= @recipe.difficulty %></p>
+
+
+<%= link_to "Delete", recipe_path(@recipe), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+<%= link_to "Back to recipes", recipes_path %>
